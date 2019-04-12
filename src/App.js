@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import withFirebaseAuth from "react-with-firebase-auth";
-import * as firebase from "firebase/app";
+import * as firebaseApp from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/firebase-firestore";
@@ -8,19 +8,18 @@ import firebaseConfig from "./firebaseConfig";
 import logo from "./logo.svg";
 import "./App.css";
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-
 class App extends Component {
+
   constructor(props) {
     super(props);
-    this.state = { registros: [] };
+    this.state = { nome: "", registros: [] };
   }
   cria() {
     const { user } = this.props;
     firebaseDb
     .collection("lab3")
     .add({
-      portador: "Teste",
+      portador: this.state.nome,
       user: user.displayName,
       datahora: new Date().getTime()
     })
@@ -50,6 +49,7 @@ class App extends Component {
     this.unsubscribe && this.unsubscribe();
   }
 
+
   render() {
     const { user, signOut, signInWithGoogle } = this.props;
     const regs = this.state.registros.map(r => {
@@ -73,7 +73,10 @@ class App extends Component {
           {user ? (
             <div>
               <button onClick={signOut}>Sign out</button>
-              <button onClick={this.cria.bind(this)}>Cria</button>
+            <input value={this.state.nome} onChange={(e)=>{
+              this.setState({...this.state, nome:e.target.value})
+            }}/>
+            <button onClick={this.cria.bind(this)}>Enviar</button>
               <ul>{regs}</ul>
             </div>
           ) : (
@@ -85,12 +88,13 @@ class App extends Component {
   }
 }
 
+firebaseApp.initializeApp(firebaseConfig);
 const firebaseAppAuth = firebaseApp.auth();
 firebaseApp.firestore().enablePersistence();
-const firebaseDb = firebase.firestore();
+const firebaseDb = firebaseApp.firestore();
 
 const providers = {
-  googleProvider: new firebase.auth.GoogleAuthProvider()
+  googleProvider: new firebaseApp.auth.GoogleAuthProvider()
 };
 
 export default withFirebaseAuth({
