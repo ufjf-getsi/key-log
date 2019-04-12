@@ -16,34 +16,40 @@ class App extends Component {
     this.state = { registros: [] };
   }
   cria() {
-    const { user, signOut, signInWithGoogle } = this.props;
+    const { user } = this.props;
+    firebaseDb
+    .collection("lab3")
+    .add({
+      portador: "Teste",
+      user: user.displayName,
+      datahora: new Date().getTime()
+    })
+    .then(ref => {
+      console.log(ref);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  
+  componentDidMount(){
+    this.unsubscribe = 
     firebaseDb
       .collection("lab3")
-      .add({
-        portador: "Teste",
-        user: user.displayName,
-        datahora: new Date().getTime()
-      })
-      .then(ref => {
-        console.log(ref);
-        firebaseDb
-          .collection("lab3")
-          .orderBy("datahora", "desc")
-          .limit(5)
-          .get()
-          .then(querySnapshot => {
-            let registros = [];
-            querySnapshot.forEach(doc => {
-              console.log(`${doc.id} => ${doc.data()}`, doc.data().user);
-              registros.push({ id: doc.id, registro: doc.data() });
-            });
-            this.setState({ ...this.state, registros: registros });
-          });
-      })
-      .catch(error => {
-        console.log(error);
+      .orderBy("datahora", "desc")
+      .limit(5)
+      .onSnapshot(querySnapshot => {
+        let registros = [];
+        querySnapshot.forEach(doc => {
+          registros.push({ id: doc.id, registro: doc.data() });
+        });
+        this.setState({ ...this.state, registros: registros });
       });
   }
+  componentWillUnmount(){
+    this.unsubscribe && this.unsubscribe();
+  }
+
   render() {
     const { user, signOut, signInWithGoogle } = this.props;
     const regs = this.state.registros.map(r => {
@@ -68,11 +74,11 @@ class App extends Component {
             <div>
               <button onClick={signOut}>Sign out</button>
               <button onClick={this.cria.bind(this)}>Cria</button>
+              <ul>{regs}</ul>
             </div>
           ) : (
             <button onClick={signInWithGoogle}>Sign in with Google</button>
           )}
-          <ul>{regs}</ul>
         </header>
       </div>
     );
@@ -80,7 +86,8 @@ class App extends Component {
 }
 
 const firebaseAppAuth = firebaseApp.auth();
-const firebaseDb = firebaseApp.firestore();
+firebaseApp.firestore().enablePersistence();
+const firebaseDb = firebase.firestore();
 
 const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider()

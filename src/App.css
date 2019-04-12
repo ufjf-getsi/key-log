@@ -35,3 +35,7 @@
 .registro:first-child>div:first-child::before{
   content: "🔑";
 }
+.registro>div:last-child{
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
