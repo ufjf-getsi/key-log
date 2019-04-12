@@ -11,6 +11,10 @@ import "./App.css";
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { registros: [] };
+  }
   cria() {
     const { user, signOut, signInWithGoogle } = this.props;
     firebaseDb
@@ -22,6 +26,19 @@ class App extends Component {
       })
       .then(ref => {
         console.log(ref);
+        firebaseDb
+          .collection("lab3")
+          .orderBy("datahora", "desc")
+          .limit(5)
+          .get()
+          .then(querySnapshot => {
+            let registros = [];
+            querySnapshot.forEach(doc => {
+              console.log(`${doc.id} => ${doc.data()}`, doc.data().user);
+              registros.push({ id: doc.id, registro: doc.data() });
+            });
+            this.setState({ ...this.state, registros: registros });
+          });
       })
       .catch(error => {
         console.log(error);
@@ -29,7 +46,18 @@ class App extends Component {
   }
   render() {
     const { user, signOut, signInWithGoogle } = this.props;
-
+    const regs = this.state.registros.map(r => {
+      const t = new Date();
+      t.setTime(r.registro.datahora * 1);
+      return (
+        <section key={r.id} className="registro">
+          <div> {r.registro.portador}.</div>
+          <div>
+            {r.registro.user} {t.toLocaleString()}
+          </div>
+        </section>
+      );
+    });
     return (
       <div className="App">
         <header className="App-header">
@@ -44,6 +72,7 @@ class App extends Component {
           ) : (
             <button onClick={signInWithGoogle}>Sign in with Google</button>
           )}
+          <ul>{regs}</ul>
         </header>
       </div>
     );

@@ -31,3 +31,7 @@
     transform: rotate(360deg);
   }
 }
+
+.registro:first-child>div:first-child::before{
+  content: "🔑";
+}
