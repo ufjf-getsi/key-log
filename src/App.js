@@ -64,16 +64,22 @@ class App extends Component {
         </section>
       );
     });
+    const datalist = this.state.registros.map(r => {
+      return (
+        <option value={r.registro.user} />
+      );
+    });
     return (
       <div className="App">
         <header className="App-header">
+          <datalist id="nomes">{datalist}</datalist>
           <img src={logo} className="App-logo" alt="logo" />
           {user ? <p>Hello, {user.displayName}</p> : <p>Please sign in.</p>}
 
           {user ? (
             <div>
               <button onClick={signOut}>Sign out</button>
-            <input value={this.state.nome} onChange={(e)=>{
+            <input list="nomes" value={this.state.nome} onChange={(e)=>{
               this.setState({...this.state, nome:e.target.value})
             }}/>
             <button onClick={this.cria.bind(this)}>Enviar</button>
