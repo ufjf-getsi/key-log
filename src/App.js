@@ -38,7 +38,7 @@ class App extends Component {
     firebaseDb
       .collection("lab3")
       .orderBy("datahora", "desc")
-      .limit(5)
+      .limit(15)
       .onSnapshot(querySnapshot => {
         let registros = [];
         querySnapshot.forEach(doc => {
@@ -54,7 +54,7 @@ class App extends Component {
 
   render() {
     const { user, signOut, signInWithGoogle } = this.props;
-    const regs = this.state.registros.map(r => {
+    const regs = this.state.registros.slice(0,5).map(r => {
       const t = new Date();
       t.setTime(r.registro.datahora * 1);
       return (
@@ -66,9 +66,15 @@ class App extends Component {
         </section>
       );
     });
-    const datalist = this.state.registros.map(r => {
+    let names = [];
+    this.state.registros.forEach(r => {
+      if (names.indexOf(r.registro.user)<0){
+        names.push(r.registro.user);
+      }
+    });
+    const datalist = names.map(n => {
       return (
-        <option value={r.registro.user} />
+        <option value={n} />
       );
     });
 
