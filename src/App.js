@@ -29,7 +29,9 @@ class App extends Component {
     .catch(error => {
       console.log(error);
     });
+    this.setState({nome : ''})
   }
+  
   
   componentDidMount(){
     this.unsubscribe = 
@@ -69,6 +71,9 @@ class App extends Component {
         <option value={r.registro.user} />
       );
     });
+
+
+      
     return (
       <div className="App">
         <header className="App-header">
@@ -79,7 +84,7 @@ class App extends Component {
           {user ? (
             <div>
               <button onClick={signOut}>Sign out</button>
-            <input list="nomes" value={this.state.nome} onChange={(e)=>{
+            <input id="myInput" list="nomes" value={this.state.nome} onChange={(e)=>{
               this.setState({...this.state, nome:e.target.value})
             }}/>
             <button onClick={this.cria.bind(this)}>Enviar</button>
@@ -87,7 +92,7 @@ class App extends Component {
             </div>
           ) : (
             <button onClick={signInWithGoogle}>Sign in with Google</button>
-          )}
+            )}
         </header>
       </div>
     );
@@ -102,6 +107,7 @@ const firebaseDb = firebaseApp.firestore();
 const providers = {
   googleProvider: new firebaseApp.auth.GoogleAuthProvider()
 };
+
 
 export default withFirebaseAuth({
   providers,
