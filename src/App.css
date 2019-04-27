@@ -20,17 +20,10 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: white;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+
 
 .registro:first-child>div:first-child::before{
   content: "🔑";
