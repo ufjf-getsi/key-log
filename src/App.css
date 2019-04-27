@@ -1,5 +1,5 @@
-.App {
-  text-align: center;
+  .App {
+  /* text-align: center; */
 }
 
 .App-logo {
@@ -32,10 +32,12 @@
   }
 }
 
-.registro:first-child>div:first-child::before{
+.registro:first-child>div:first-child::after{
   content: "🔑";
+  
 }
 .registro>div:last-child{
   font-size: 0.8rem;
   opacity: 0.6;
 }
+

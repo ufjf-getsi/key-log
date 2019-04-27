@@ -85,11 +85,11 @@ class App extends Component {
         <header className="App-header">
           <datalist id="nomes">{datalist}</datalist>
           <img src={logo} className="App-logo" alt="logo" />
-          {user ? <p>Hello, {user.displayName}</p> : <p>Please sign in.</p>}
+          {user ? <p>Bem-vindo, {user.displayName}</p> : <p>Login</p>}
 
           {user ? (
             <div>
-              <button onClick={signOut}>Sign out</button>
+              <button onClick={signOut}>Logout</button>
             <input id="myInput" list="nomes" value={this.state.nome} onChange={(e)=>{
               this.setState({...this.state, nome:e.target.value})
             }}/>
