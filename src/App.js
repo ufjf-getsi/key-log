@@ -89,11 +89,9 @@ class App extends Component {
 
             {user ? (
               <div>
-                <TextField id="myInput" label="Name" value={this.state.name} onChange={(e) => {
+                <TextField id="myInput" label="Nome" value={this.state.name} onChange={(e) => {
                   this.setState({ ...this.state, nome: e.target.value })
-
                 }} />
-
                 <Button variant="outlined" onClick={this.cria.bind(this)}>Enviar</Button>
                 <ul>{regs}</ul>
               </div>
