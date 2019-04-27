@@ -5,7 +5,7 @@ import "firebase/auth";
 import "firebase/database";
 import "firebase/firebase-firestore";
 import firebaseConfig from "./firebaseConfig";
-import logo from "./logo.svg";
+import logo from "./logo.png";
 import "./App.css";
 
 class App extends Component {
