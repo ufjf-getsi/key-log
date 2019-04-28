@@ -1,4 +1,4 @@
-.App {
+  .App {
   text-align: center;
 }
 
@@ -10,22 +10,25 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: whitesmoke;
   min-height: 95vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
 }
 
 .App-link {
   color: white;
 }
 
-.registro:first-child>div:first-child::before{
+
+
+.registro:first-child>div:first-child::after{
   content: "🔑";
+  
 }
 .registro>div:last-child{
   font-size: 0.8rem;
@@ -34,11 +37,11 @@
 
 footer{
   height: 5vh;
-  background: #282c34;
-  color:white;
+  background: whitesmoke;
+  color:black;
 }
 
 footer a{
-  color:white;
+  color:black;
 }
 
