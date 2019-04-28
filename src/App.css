@@ -1,47 +1,46 @@
   .App {
-  text-align: center;
-}
+    text-align: center;
+  }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-  margin-bottom: 15px;
-}
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
+    margin-bottom: 15px;
+  }
 
-.App-header {
-  background-color: whitesmoke;
-  min-height: 95vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: black;
-}
+  .App-header {
+    background-color: whitesmoke;
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: black;
+  }
 
-.App-link {
-  color: white;
-}
+  .App-link {
+    color: white;
+  }
 
+  .registro:first-child>div:first-child::after {
+    content: "🔑";
+  }
 
+  .registro>div:last-child {
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
 
-.registro:first-child>div:first-child::after{
-  content: "🔑";
-  
-}
-.registro>div:last-child{
-  font-size: 0.8rem;
-  opacity: 0.6;
-}
+  footer {
+    height: 4.9vh;
+    background: #282828;
+    color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+  }
 
-footer{
-  height: 5vh;
-  background: whitesmoke;
-  color:black;
-}
-
-footer a{
-  color:black;
-}
-
+  footer a {
+    color: whitesmoke;
+  }
