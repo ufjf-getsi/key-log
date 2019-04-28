@@ -7,6 +7,8 @@ import "firebase/firebase-firestore";
 import firebaseConfig from "./firebaseConfig";
 import logo from "./logo.png";
 import "./App.css";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 class App extends Component {
 
@@ -17,44 +19,44 @@ class App extends Component {
   cria() {
     const { user } = this.props;
     firebaseDb
-    .collection("lab3")
-    .add({
-      portador: this.state.nome,
-      user: user.displayName,
-      datahora: new Date().getTime()
-    })
-    .then(ref => {
-      console.log(ref);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-    this.setState({nome : ''})
-  }
-  
-  
-  componentDidMount(){
-    this.unsubscribe = 
-    firebaseDb
       .collection("lab3")
-      .orderBy("datahora", "desc")
-      .limit(15)
-      .onSnapshot(querySnapshot => {
-        let registros = [];
-        querySnapshot.forEach(doc => {
-          registros.push({ id: doc.id, registro: doc.data() });
-        });
-        this.setState({ ...this.state, registros: registros });
+      .add({
+        portador: this.state.nome,
+        user: user.displayName,
+        datahora: new Date().getTime()
+      })
+      .then(ref => {
+        console.log(ref);
+      })
+      .catch(error => {
+        console.log(error);
       });
+    this.setState({ nome: '' })
   }
-  componentWillUnmount(){
+
+
+  componentDidMount() {
+    this.unsubscribe =
+      firebaseDb
+        .collection("lab3")
+        .orderBy("datahora", "desc")
+        .limit(15)
+        .onSnapshot(querySnapshot => {
+          let registros = [];
+          querySnapshot.forEach(doc => {
+            registros.push({ id: doc.id, registro: doc.data() });
+          });
+          this.setState({ ...this.state, registros: registros });
+        });
+  }
+  componentWillUnmount() {
     this.unsubscribe && this.unsubscribe();
   }
 
 
   render() {
     const { user, signOut, signInWithGoogle } = this.props;
-    const regs = this.state.registros.slice(0,5).map(r => {
+    const regs = this.state.registros.slice(0, 5).map(r => {
       const t = new Date();
       t.setTime(r.registro.datahora * 1);
       return (
@@ -68,7 +70,7 @@ class App extends Component {
     });
     let names = [];
     this.state.registros.forEach(r => {
-      if (names.indexOf(r.registro.user)<0){
+      if (names.indexOf(r.registro.user) < 0) {
         names.push(r.registro.user);
       }
     });
@@ -77,45 +79,48 @@ class App extends Component {
         <option value={n} />
       );
     });
+      return (
+        <div className="App">
+          <header className="App-header">
+            <datalist id="nomes">{datalist}</datalist>
+            <img src={logo} className="App-logo" alt="logo" />
+            <Button id="login" variant="outlined"  onClick={signOut}>Sign out</Button>
+            {user ? <p>Hello, {user.displayName}</p> : <p>Please sign in.</p>}
 
+            {user ? (
+              <div>
+                
+                <TextField id="myInput" label="Name" value={this.state.name} onChange={(e) => {
+                  this.setState({ ...this.state, nome: e.target.value })
 
-      
-    return (
-      <div className="App">
-        <header className="App-header">
-          <datalist id="nomes">{datalist}</datalist>
-          <img src={logo} className="App-logo" alt="logo" />
-          {user ? <p>Bem-vindo, {user.displayName}</p> : <p>Login</p>}
+                }} />
 
-          {user ? (
-            <div>
-              <button onClick={signOut}>Logout</button>
-            <input id="myInput" list="nomes" value={this.state.nome} onChange={(e)=>{
-              this.setState({...this.state, nome:e.target.value})
-            }}/>
-            <button onClick={this.cria.bind(this)}>Enviar</button>
-              <ul>{regs}</ul>
-            </div>
-          ) : (
-            <button onClick={signInWithGoogle}>Sign in with Google</button>
-            )}
-        </header>
-      </div>
-    );
+                <Button variant="outlined" onClick={this.cria.bind(this)}>Enviar</Button>
+                <ul>{regs}</ul>
+              </div>
+            ) : (
+                <Button variant="outlined"  onClick={signInWithGoogle}>Sign in with Google</Button>
+              )}
+
+          </header>
+
+          <footer>Desenvolvido por <a target="_blank" href="https://www.ufjf.br/getsi/">GET SI</a></footer>
+        </div>
+      );
+    }
   }
-}
 
-firebaseApp.initializeApp(firebaseConfig);
-const firebaseAppAuth = firebaseApp.auth();
-firebaseApp.firestore().enablePersistence();
-const firebaseDb = firebaseApp.firestore();
+  firebaseApp.initializeApp(firebaseConfig);
+  const firebaseAppAuth = firebaseApp.auth();
+  firebaseApp.firestore().enablePersistence();
+  const firebaseDb = firebaseApp.firestore();
 
-const providers = {
-  googleProvider: new firebaseApp.auth.GoogleAuthProvider()
-};
+  const providers = {
+    googleProvider: new firebaseApp.auth.GoogleAuthProvider()
+  };
 
 
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth
-})(App);
+  export default withFirebaseAuth({
+    providers,
+    firebaseAppAuth
+  })(App);
