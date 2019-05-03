@@ -8,7 +8,6 @@ import firebaseConfig from "./firebaseConfig";
 import logo from "./logo.png";
 import "./App.css";
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 
 class App extends Component {
 
@@ -89,9 +88,9 @@ class App extends Component {
             <div>
               <Button id="login" variant="outlined" onClick={signOut}>Sign out</Button>
               <br></br>
-              <TextField id="myInput" list="nomes" label="Nome" value={this.state.nome} onChange={(e) => {
+              <label>Nome: <input style={{height: "2em"}} id="myInput" list="nomes" label="Nome" value={this.state.nome} onChange={(e) => {
                 this.setState({ ...this.state, nome: e.target.value })
-              }} />
+              }} /></label>
               <Button variant="outlined" onClick={this.cria.bind(this)}>Enviar</Button>
               <ul>{regs}</ul>
             </div>
