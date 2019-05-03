@@ -84,10 +84,11 @@ class App extends Component {
         <header className="App-header">
           <datalist id="nomes">{datalist}</datalist>
           <img src={logo} className="App-logo" alt="logo" />
-          <Button id="login" variant="outlined" onClick={signOut}>Sign out</Button>
           {user ? <p>Hello, {user.displayName}</p> : <p>Please sign in.</p>}
           {user ? (
             <div>
+              <Button id="login" variant="outlined" onClick={signOut}>Sign out</Button>
+              <br></br>
               <TextField id="myInput" list="nomes" label="Nome" value={this.state.nome} onChange={(e) => {
                 this.setState({ ...this.state, nome: e.target.value })
               }} />
@@ -95,6 +96,7 @@ class App extends Component {
               <ul>{regs}</ul>
             </div>
           ) : (
+
               <Button variant="outlined" onClick={signInWithGoogle}>Sign in with Google</Button>
             )}
 
